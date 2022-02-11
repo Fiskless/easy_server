@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  labels:
+    app: server-application
+spec:
+  selector:
+    matchLabels:
+      project: server
+  template:
+    metadata:
+      labels:
+        project: server
+    spec:
+      containers:
+      - name: server-pod
+        image: server_app
+        ports:
+        - containerPort: 80
+        imagePullPolicy: IfNotPresent
+
+
+---
+apiVersion : v1
+kind: Service
+metadata:
+  name: server-service-clusterip
+  labels:
+    env: prod
+    project: server
+spec:
+  selector:
+    project: server
+  ports:
+    - port: 80
+      targetPort: 80
